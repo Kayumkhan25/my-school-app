@@ -5,6 +5,9 @@ import Head from 'next/head';
 import Loading from '@/components/Loading';
 import DataNotFound from '@/components/DataNotFound';
 import Navbar from '@/components/Navbar';
+import { toast } from 'react-toastify'; 
+import 'react-toastify/dist/ReactToastify.css';  
+
 
 export default function ShowSchools() {
   const [schools, setSchools] = useState([]);
@@ -14,7 +17,7 @@ export default function ShowSchools() {
   const fetchSchools = async () => {
     try {
       const response = await axios.get('./api/getSchools');
-      setSchools(response.data); // Update schools state
+      setSchools(response.data); 
     } catch (error) {
       console.error('Error fetching schools:', error);
       toast.error('Error fetching schools data');
@@ -30,6 +33,7 @@ export default function ShowSchools() {
   const handleSchoolAdded = () => {
     setReload(!reload); // Toggle the reload state to trigger data refresh
   };
+  console.log("schools data: ", schools);
 
   return (
     <>

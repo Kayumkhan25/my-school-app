@@ -4,15 +4,24 @@
 @tailwind utilities;
 body {
     font-family: "Roboto Mono", monospace;
-    font-optical-sizing: auto;
-    font-weight: 500;
-    font-style: normal;
 }
 
 input {
     font-family: "Noto Sans", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 500;
-    font-style: normal;
-    font-variation-settings: "wdth" 100;
+}
+
+.custom-loader {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: #1d9d2a;
+    -webkit-mask: radial-gradient(circle closest-side at 50% 40%, #0000 94%, #000);
+    transform-origin: 50% 40%;
+    animation: s5 1s infinite linear;
+}
+
+@keyframes s5 {
+    100% {
+        transform: rotate(1turn)
+    }
 }

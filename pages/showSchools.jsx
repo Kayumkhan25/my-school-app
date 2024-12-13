@@ -1,23 +1,11 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../styles/globals.css';
-import Link from 'next/link';
 import Head from 'next/head';
+import Loading from '@/components/Loading';
+import DataNotFound from '@/components/DataNotFound';
+import Navbar from '@/components/Navbar';
 
-// DataNotFound Component
-const DataNotFound = () => {
-  return (
-    <>
- 
-    <div className="min-h-screen flex flex-col items-center justify-center gap-y-5 bg-gray-100 rounded-lg shadow-md">
-      <h2 className="text-3xl font-semibold italic text-red-500">🥺No Data Found</h2>
-      <p className="text-gray-500">Please add some schools data to display here.</p>
-      <Link href="/addSchool">
-        <button className='px-3 py-2 bg-sky-500 text-white font-medium rounded-lg hover:bg-sky-700 transition duration-200'>Add School</button>
-      </Link>
-    </div></>
-  );
-};
 
 export default function ShowSchools() {
   const [schools, setSchools] = useState([]);
@@ -49,27 +37,53 @@ export default function ShowSchools() {
       <Head>
       <title>Show School</title>
       </Head>
-      <div className="p-6 bg-red-300">
+      <div className=' bg-slate-100 '>
 
         {/* Conditional Rendering */}
         {schools.length > 0 ? (
-          <div className="bg-green-300">
-           <h1 className="text-2xl font-bold mb-4">School List</h1>
-           <div className=" bg-cyan-300 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-[55rem]">
-            {schools.map((school) => (
-              <div key={school.id} className="bg-lime-400 border p-4 rounded shadow">
-                <img
-                  src={`/schoolImages/${school.image}`}
-                  alt={school.name}
-                  className="w-full h-40 object-cover rounded"
-                />
-                <p>{school.city.replace(/["\[\]]/g, '')}</p>
-                <h2 className="text-lg font-bold mt-2">{school.name.replace(/["\[\]]/g, '')}</h2>
-                <p>{school.address.replace(/["\[\]]/g, '')}</p>
+        <div>
+          <div>
+            <Navbar />
+          </div>
+          <div>
+            <div className="">
+              
+              <div className="text-3xl text-center justify-center mt-10 font-semibold bg-gradient-to-r from-sky-600 fron-30% to-cyan-600 to-70% text-transparent bg-clip-text">
+                View Schools
               </div>
-            ))}
+              <div className="mx-auto p-10 mt-8 shadow-xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-3 w-[85rem] rounded-lg border-x">
+                {schools.map((school) => (
+                  <div key={school.id} className="border rounded-xl m-3 mt-5 shadow-xl max-w-fit overflow-hidden">
+                    <div className='overflow-hidden rounded-t-xl'>
+                      {
+                        school.image ? 
+                        (<img
+                          src={`/schoolImages/${school.image}`}
+                          alt={school.name}
+                          className="w-[260px] h-[17rem] mx-auto hover:scale-110 transition-all duration-200 cursor-pointer"
+                        />)
+                        :
+                        (<div className="w-[17rem] h-[17rem] flex justify-center items-center">
+                        <Loading />
+                        </div>)
+                      }
+                      
+                    </div>
+                    <div className='px-5 py-4 flex flex-col gap-1'>
+                      <p className="text-sky-400 font-light">{school.city.replace(/["\[\]]/g, '')}</p>
+                      <h2 className="text-lg font-bold">{school.name.replace(/["\[\]]/g, '')}</h2>
+                      <p className='text-slate-500 mt-3'>{school.address.replace(/["\[\]]/g, '')}</p>
+                    </div>
+                    <a href="#">
+                      <button className='bg-green-500 hover:bg-green-600 transition-all duration-200 text-white px-2 py-2  min-w-full'>Apply Now</button>
+                    </a>
+                  </div>
+                ))}
+                </div>
+              </div>
             </div>
           </div>
+          
         ) : (
           <DataNotFound />
         )}

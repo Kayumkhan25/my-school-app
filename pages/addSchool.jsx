@@ -34,7 +34,7 @@ export default function AddSchool() {
 
     try {
       // Cloudinary API URL (make sure the endpoint is correct for your backend)
-      const response = await fetch('/api/addSchool', {
+      const response = await fetch('./api/addSchool', {
         method: 'POST',
         body: formData,
       });

@@ -1,68 +1,75 @@
 const formidable = require('formidable');
-const path = require('path');
-const db = require('../../lib/db'); // Correct path for DB connection
+const cloudinary = require('cloudinary').v2;
+const fs = require('fs');
+const db = require('../../lib/db'); // Your database connection
+
+// Configure Cloudinary with your credentials
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 export const config = {
   api: {
-    bodyParser: false,  // Disable default body parsing to handle multipart form data
+    bodyParser: false, // Disable default body parsing to handle multipart form data
   },
 };
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
     const form = new formidable.IncomingForm({
-      uploadDir: path.join(process.cwd(), '/public/schoolImages'),
       keepExtensions: true,
-      allowEmptyFiles: false,
       maxFileSize: 5 * 1024 * 1024, // Limit file size to 5MB
     });
 
     form.parse(req, async (err, fields, files) => {
-
-      
       if (err) {
         console.error('Error parsing the form:', err);
         return res.status(500).json({ message: 'Error parsing the data' });
       }
-      console.log("fields", fields);
-      console.log('Files:');
-      console.log(files);
 
+      // Check if the image file is present
       if (!files.image || !files.image[0]?.filepath) {
-        console.error('Filepath is undefined or image is missing');
-        return res.status(400).json({ message: 'Invalid file upload' });
+        return res.status(400).json({ message: 'Image is missing' });
       }
 
       const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp', 'image/svg'];
       if (!allowedTypes.includes(files.image[0].mimetype)) {
-        console.error('Invalid file type:', files.image[0].mimetype);
-        return res.status(400).json({ message: 'Only JPG, PNG, WebP, and SVG images are allowed' });
+        return res.status(400).json({ message: 'Invalid file type' });
       }
 
+      // Upload image to Cloudinary
+      const imageFile = files.image[0];
       try {
-        const { name, address, city, state, contact, email_id } = fields;
-        const image = path.basename(files.image[0].filepath);
+        const cloudinaryResponse = await cloudinary.uploader.upload(imageFile.filepath, {
+          folder: 'schoolImages', // Optional: specify a folder
+        });
+        const imageUrl = cloudinaryResponse.secure_url; // Get the URL of the uploaded image
 
-        // Check if school with similar details exists
+        // Save the school details to the database, including the image URL
+        const { name, address, city, state, contact, email_id } = fields;
+
+        // Check if the school already exists
         const [existingSchool] = await db.execute(
           'SELECT * FROM schools WHERE name = ? AND city = ? AND (email_id = ? OR contact = ?)',
           [name, city, email_id, contact]
         );
 
         if (existingSchool.length > 0) {
-          return res.status(400).json({ message: 'A school with the similar details already exists.' });
+          return res.status(400).json({ message: 'A school with similar details already exists.' });
         }
 
-        // Insert new school data
+        // Insert new school into the database
         await db.execute(
           'INSERT INTO schools (name, address, city, state, contact, image, email_id) VALUES (?, ?, ?, ?, ?, ?, ?)',
-          [name, address, city, state, contact, image, email_id]
+          [name, address, city, state, contact, imageUrl, email_id]
         );
 
         res.status(200).json({ message: 'School added successfully' });
-      } catch (dbError) {
-        console.error('Database error:', dbError);
-        res.status(500).json({ message: 'Error saving school to the database' });
+      } catch (error) {
+        console.error('Error uploading to Cloudinary:', error);
+        res.status(500).json({ message: 'Error uploading image to Cloudinary' });
       }
     });
   } else {
@@ -70,4 +77,3 @@ export default async function handler(req, res) {
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }
-  

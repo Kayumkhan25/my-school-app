@@ -5,7 +5,7 @@ export default async function handler(req, res) {
     try {
       console.log('Fetching data from MySQL...'); // Add this log to confirm the request is received
 
-      const [rows] = await db.execute('SELECT id, name, address, city FROM schools');
+      const [rows] = await db.execute('SELECT id, name, address, city, image FROM schools');
       console.log('Data fetched:', rows); // Log the fetched data to check what is returned
 
       res.status(200).json(rows);
@@ -17,3 +17,4 @@ export default async function handler(req, res) {
     res.status(405).json({ message: 'Method not allowed' });
   }
 }
+

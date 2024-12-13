@@ -17,6 +17,7 @@ export default function ShowSchools() {
       setSchools(response.data); // Update schools state
     } catch (error) {
       console.error('Error fetching schools:', error);
+      toast.error('Error fetching schools data');
     }
   };
 
@@ -52,7 +53,7 @@ export default function ShowSchools() {
                   {schools.map((school) => (
                     <div key={school.id} className="mx-auto relative border rounded-xl m-3 mt-5 shadow-xl max-w-[260px] overflow-hidden">
                       <div className='overflow-hidden rounded-t-xl'>
-                        {/* {
+                        {
                           school.image ? 
                           (
                             // If the image is uploaded to Cloudinary, use the Cloudinary URL
@@ -66,7 +67,7 @@ export default function ShowSchools() {
                               <Loading />
                             </div>
                           )
-                        } */}
+                        }
                       </div>
                       <div className='px-5 pt-4 pb-12 flex flex-col gap-1'>
                         <p className="text-sky-400 font-light">{school.city.replace(/["\[\]]/g, '')}</p>

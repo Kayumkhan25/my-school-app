@@ -22,7 +22,7 @@ export default async function handler(req, res) {
       
       if (err) {
         console.error('Error parsing the form:', err);
-        return res.status(500).json({ message: 'Error parsing the form data' });
+        return res.status(500).json({ message: 'Error parsing the data' });
       }
       console.log("fields", fields);
       console.log('Files:');

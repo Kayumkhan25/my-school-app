@@ -18,8 +18,10 @@ export default async function handler(req, res) {
     });
 
     form.parse(req, async (err, fields, files) => {
-      console.log('Fields:', fields);
-      console.log('Files:', files);
+      console.log('Fields:');
+      console.log(fields);
+      console.log('Files:');
+      console.log(files);
       
       if (err) {
         console.error('Error parsing the form:', err);

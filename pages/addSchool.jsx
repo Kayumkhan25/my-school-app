@@ -6,7 +6,6 @@ import "../styles/globals.css";
 import Head from 'next/head';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
-import Loading from '@/components/Loading';
 
 export default function AddSchool() {
   const [loading, setLoading] = useState(false); // State to track loading
@@ -172,7 +171,7 @@ export default function AddSchool() {
               <button 
                 type="submit" 
                 className="bg-blue-500 border border-blue-600 text-white p-3 rounded-lg hover:bg-blue-600 transition duration-200">
-                {loading ? (<Loading/>) : 'Add School'}
+                {loading ? 'Submitting...' : 'Add School'}
               </button>
             </div>
           </form>

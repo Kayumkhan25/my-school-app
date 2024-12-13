@@ -11,8 +11,8 @@ input {
 }
 
 .custom-loader {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     background: #1d9d2a;
     -webkit-mask: radial-gradient(circle closest-side at 50% 40%, #0000 94%, #000);

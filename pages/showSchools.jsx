@@ -13,7 +13,7 @@ export default function ShowSchools() {
   // Function to fetch schools from the API
   const fetchSchools = async () => {
     try {
-      const response = await axios.get('/api/getSchools');
+      const response = await axios.get('./api/getSchools');
       setSchools(response.data); // Update schools state
     } catch (error) {
       console.error('Error fetching schools:', error);

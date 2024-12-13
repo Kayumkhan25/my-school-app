@@ -18,13 +18,15 @@ export default async function handler(req, res) {
     });
 
     form.parse(req, async (err, fields, files) => {
+      console.log('Fields:', fields);
+      console.log('Files:', files);
+      
       if (err) {
         console.error('Error parsing the form:', err);
         return res.status(500).json({ message: 'Error parsing the form data' });
       }
 
-      // console.log('Fields:', fields);
-      // console.log('Files:', files);
+   
 
       if (!files.image || !files.image[0]?.filepath) {
         console.error('Filepath is undefined or image is missing');

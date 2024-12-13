@@ -10,7 +10,6 @@ import Navbar from '@/components/Navbar';
 export default function ShowSchools() {
   const [schools, setSchools] = useState([]);
   const [reload, setReload] = useState(false); // State to trigger re-fetching
-  const l = ['[', ']', '"'] ;
 
   // Function to fetch schools from the API
   const fetchSchools = async () => {
@@ -37,7 +36,7 @@ export default function ShowSchools() {
       <Head>
       <title>Show School</title>
       </Head>
-      <div className=' bg-slate-100 '>
+      <div className='overflow-hidden'>
 
         {/* Conditional Rendering */}
         {schools.length > 0 ? (
@@ -46,14 +45,13 @@ export default function ShowSchools() {
             <Navbar />
           </div>
           <div>
-            <div className="">
-              
-              <div className="text-3xl text-center justify-center mt-10 font-semibold bg-gradient-to-r from-sky-600 fron-30% to-cyan-600 to-70% text-transparent bg-clip-text">
+            <div className="px-5 md:px-16 mx-auto">
+              <div className=" mx-auto text-3xl text-center justify-center mt-10 font-semibold bg-gradient-to-r from-sky-600 fron-30% to-cyan-600 to-70% text-transparent bg-clip-text">
                 View Schools
               </div>
-              <div className="mx-auto p-10 mt-8 shadow-xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-3 w-[85rem] rounded-lg border-x">
+              <div className="mx-auto p-10 m-8 shadow-xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-3 rounded-lg border-x">
                 {schools.map((school) => (
-                  <div key={school.id} className="border rounded-xl m-3 mt-5 shadow-xl max-w-fit overflow-hidden">
+                  <div key={school.id} className="mx-auto border rounded-xl m-3 mt-5 shadow-xl max-w-fit overflow-hidden">
                     <div className='overflow-hidden rounded-t-xl'>
                       {
                         school.image ? 
@@ -67,7 +65,6 @@ export default function ShowSchools() {
                         <Loading />
                         </div>)
                       }
-                      
                     </div>
                     <div className='px-5 py-4 flex flex-col gap-1'>
                       <p className="text-sky-400 font-light">{school.city.replace(/["\[\]]/g, '')}</p>
@@ -75,7 +72,7 @@ export default function ShowSchools() {
                       <p className='text-slate-500 mt-3'>{school.address.replace(/["\[\]]/g, '')}</p>
                     </div>
                     <a href="#">
-                      <button className='bg-green-500 hover:bg-green-600 transition-all duration-200 text-white px-2 py-2  min-w-full'>Apply Now</button>
+                      <button className='bg-green-600 hover:bg-green-700 transition-all duration-200 text-white px-2 py-2 min-w-full bottom-0'>Apply Now</button>
                     </a>
                   </div>
                 ))}

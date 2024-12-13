@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css"; // Import the toast styles
@@ -8,6 +8,7 @@ import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 
 export default function AddSchool() {
+  const [loading, setLoading] = useState(false); // State to track loading
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
   const onSubmit = async (data) => {
@@ -28,7 +29,9 @@ export default function AddSchool() {
       toast.error('Please upload an image');
       return;
     }
-  
+
+    setLoading(true); // Set loading to true when the form is submitted
+
     try {
       // Cloudinary API URL (make sure the endpoint is correct for your backend)
       const response = await fetch('/api/addSchool', {
@@ -46,6 +49,8 @@ export default function AddSchool() {
     } catch (error) {
       console.error('Error:', error);
       toast.error('Error in adding school');
+    } finally {
+      setLoading(false); // Set loading to false after submission (success or failure)
     }
   };
 
@@ -166,7 +171,7 @@ export default function AddSchool() {
               <button 
                 type="submit" 
                 className="bg-blue-500 border border-blue-600 text-white p-3 rounded-lg hover:bg-blue-600 transition duration-200">
-                Add School
+                {loading ? 'Submitting...' : 'Add School'}
               </button>
             </div>
           </form>

@@ -50,7 +50,7 @@ export default function ShowSchools() {
                 </div>
                 <div className="mx-auto p-10 m-8 shadow-xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-3 rounded-lg border-x">
                   {schools.map((school) => (
-                    <div key={school.id} className="mx-auto border rounded-xl m-3 mt-5 shadow-xl max-w-[260px] overflow-hidden">
+                    <div key={school.id} className="mx-auto relative border rounded-xl m-3 mt-5 shadow-xl max-w-[260px] overflow-hidden">
                       <div className='overflow-hidden rounded-t-xl'>
                         {
                           school.image ? 
@@ -68,13 +68,13 @@ export default function ShowSchools() {
                           )
                         }
                       </div>
-                      <div className='px-5 py-4 flex flex-col gap-1'>
+                      <div className='px-5 pt-4 pb-12 flex flex-col gap-1'>
                         <p className="text-sky-400 font-light">{school.city.replace(/["\[\]]/g, '')}</p>
                         <h2 className="text-lg font-bold">{school.name.replace(/["\[\]]/g, '')}</h2>
                         <p className='text-slate-500 mt-3'>{school.address.replace(/["\[\]]/g, '')}</p>
                       </div>
-                      <a href="#">
-                        <button className='bg-green-600 hover:bg-green-700 transition-all duration-200 text-white px-2 py-2 min-w-full bottom-0'>Apply Now</button>
+                      <a href="#" className='absolute bottom-0 left-0 right-0'>
+                        <button className='bg-green-600 hover:bg-green-700 transition-all duration-200 text-white px-2 py-2 min-w-full '>Apply Now</button>
                       </a>
                     </div>
                   ))}

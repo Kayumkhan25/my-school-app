@@ -16,13 +16,14 @@ export default function ShowSchools() {
   // Function to fetch schools from the API
   const fetchSchools = async () => {
     try {
-      const response = await axios.get('./api/getSchools');
-      setSchools(response.data); 
+      const response = await axios.get('/api/getSchools');
+      setSchools(response.data);
     } catch (error) {
       console.error('Error fetching schools:', error);
       toast.error('Error fetching schools data');
     }
   };
+  
 
   // Re-fetch the data when the component mounts or when `reload` state changes
   useEffect(() => {

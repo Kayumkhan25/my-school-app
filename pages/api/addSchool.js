@@ -8,6 +8,13 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+// Log the Cloudinary config to verify
+console.log('Cloudinary Config:', {
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
 export const config = {
   api: {
     bodyParser: false, // Disable default body parser for file upload
